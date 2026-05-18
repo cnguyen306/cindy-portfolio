@@ -508,9 +508,10 @@
   .cs-page.active { display: block; }
 
   .cs-back {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    display: block;
+    width: 100%;
+    max-width: 820px;
+    margin-inline: auto;
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -520,8 +521,7 @@
     border: none;
     font-family: inherit;
     padding: var(--top-offset) var(--gutter) 0;
-    max-width: 820px;
-    margin-inline: auto;
+    text-align: left;
     transition: color 0.2s;
   }
 
@@ -589,7 +589,7 @@
   }
 
   .cs-body {
-    max-width: 720px;
+    max-width: 820px;
     padding: 3rem var(--gutter) 5rem;
     margin-inline: auto;
   }
@@ -780,13 +780,13 @@
     font-size: 9px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--pink);
+    color: var(--cream);
     margin-bottom: 0.4rem;
   }
 
   .cs-callout-text {
     font-size: 14px;
-    color: var(--cream);
+    color: var(--pink);
     line-height: 1.7;
     font-style: italic;
     font-family: 'Playfair Display', serif;
@@ -1557,7 +1557,7 @@
 
   <!-- Work -->
   <div id="work" style="padding: 3rem 0 0;">
-    <div class="section-label" style="padding-left: var(--content-x);">Selected work</div>
+    <div class="section-label" style="padding-left: var(--content-x);">Recent work</div>
     <div class="work-grid" style="margin-top: 1rem;">
       <button class="case-card" onclick="openCase(0)">
         <div class="case-num">01</div>
@@ -1567,7 +1567,7 @@
         <div class="chips">
           <span class="chip">UX Strategy</span>
           <span class="chip">Information Architecture</span>
-          <span class="chip">Drupal</span>
+          <span class="chip">AI workflow</span>
         </div>
       </button>
       <button class="case-card" onclick="openCase(1)">
@@ -1578,7 +1578,7 @@
         <div class="chips">
           <span class="chip">Design Systems</span>
           <span class="chip">Brand</span>
-          <span class="chip">LinkedIn</span>
+          <span class="chip">Figma</span>
         </div>
       </button>
       <button class="case-card" onclick="openCase(2)">
@@ -1587,9 +1587,9 @@
         <div class="case-co">SEI Investments</div>
         <div class="case-desc">Reimagining an audience-scattered homepage into a self-identifying, segment-driven experience.</div>
         <div class="chips">
-          <span class="chip">UX & UI Design</span>
-          <span class="chip">Research</span>
-          <span class="chip">Figma</span>
+          <span class="chip">UI Design</span>
+          <span class="chip">UX Strategy </span>
+          <span class="chip">CMS</span>
         </div>
       </button>
     </div>
@@ -1637,7 +1637,7 @@
       </button>
       <button class="photo-tab-btn" data-tab="moments" onclick="setPhotoTab('moments')">
         <span>Moments</span>
-        <span class="photo-tab-desc">Take a pic, it lasts longer</span>
+        <span class="photo-tab-desc">Take a pic, it'll last longer</span>
       </button>
     </div>
 
@@ -1657,7 +1657,7 @@
       <div class="photo-cell"><div class="photo-inner"><img src="images/micro-wedding.jpg" alt="A wedded couple walking together on a romantic paved path" /></div><div class="photo-overlay"><span class="photo-label">New beginnings</span><span class="photo-loc">Malvern, PA</span></div></div>
       <div class="photo-cell"><div class="photo-inner"><img src="images/graduation-walkway.jpg" alt="A college graduate posing in her gown and cap" /></div><div class="photo-overlay"><span class="photo-label">Congrads</span><span class="photo-loc">Philadelphia, PA</span></div></div>
       <div class="photo-cell"><div class="photo-inner"><img src="images/art-museum-engagement.jpg" alt="A black and white shot of a newly engaged couple walking down the museum steps" /></div><div class="photo-overlay"><span class="photo-label">Nimbae</span><span class="photo-loc">Philadelphia, PA</span></div></div>
-      <div class="photo-cell"><div class="photo-inner"><img src="images/graduate-headshot.jpg" alt="A close-up shot of a young woman wearing white" /></div><div class="photo-overlay"><span class="photo-label">Jakki</span><span class="photo-loc">Philadelphia, PA</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/alysha-in-yellow.jpg" alt="A close-up shot of a young woman wearing yellow" /></div><div class="photo-overlay"><span class="photo-label">Alysha</span><span class="photo-loc">Malvern, PA</span></div></div>
       <div class="photo-cell"><div class="photo-inner"><img src="images/kyoto-engagement.jpg" alt="A dramatic silhouette shot of a couple with lanterns behind them" /></div><div class="photo-overlay"><span class="photo-label">Lanterns</span><span class="photo-loc">Kyoto, JP</span></div></div>
     </div>
 
@@ -1719,17 +1719,22 @@
     <div class="cs-section">
       <div class="cs-section-title">My role</div>
       <p class="cs-text">As UX lead, I owned the audit of the current site — determining what content was still relevant and what needed updating before the transition. I also rebuilt the site map to maintain the spirit of the three-country structure on a global scale. I collaborated with project management, content owners, copywriters, and the Talent Acquisition and People & Culture teams throughout.</p>
+      <p class="cs-text" style="margin-top:1rem;">This was also the project where I built my first end-to-end AI-assisted workflow — using Claude and ChatGPT across every stage: getting up to speed on the industry landscape, running competitive benchmarking across multi-region careers sites, generating placeholder copy, testing for friction, and modifying employee photographs for compliance.</p>
     </div>
 
     <div class="cs-section">
       <div class="cs-section-title">Approach</div>
       <ul class="cs-bullets">
-        <li>Conducted a competitive landscape review of top financial industry peers to identify themes in how careers sections are structured and positioned.</li>
+        <li>Conducted a competitive landscape review of top financial industry peers — benchmarking multi-region careers sites using a structured AI-assisted framework to identify patterns in architecture, content, and candidate flow.</li>
         <li>Audited all existing content for relevance, flagging what needed updating before migration.</li>
         <li>Rebuilt the site map to embrace the three-country structure within a global architecture.</li>
         <li>Phase 1 testing: internal UX designers, developers, and analytics specialists validated technical functionality.</li>
         <li>Phase 2 testing: Talent Acquisition and People & Culture stakeholders validated content accuracy and candidate experience.</li>
       </ul>
+      <div class="cs-callout">
+        <div class="cs-callout-label">On using AI</div>
+        <div class="cs-callout-text">"The benchmarking was structured around 8 prompts I developed through my professional certificate program. AI didn't make the decisions — it made sure I was informed enough to make better ones."</div>
+      </div>
     </div>
 
     <div class="cs-section">
@@ -2025,6 +2030,7 @@
   <section class="contact-section" id="contact">
     <div class="section-label">Get in touch</div>
     <div class="contact-links">
+      <a class="contact-link" href="resume.pdf" download>Resume</a>
       <a class="contact-link" href="mailto:cindyytnguyen306@gmail.com">Email</a>
       <a class="contact-link" href="https://www.linkedin.com/in/cindesigns/" target="_blank">LinkedIn</a>
       <a class="contact-link" href="https://instagram.com/cmonyt" target="_blank">Instagram</a>
