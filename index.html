@@ -1,0 +1,2208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cindy Nguyen — UX Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pink: #f4b8cb;
+    --gold: #f5c84a;
+    --lav: #c4aef0;
+    --cream: #fefbf6;
+    --bg: #0e0e0e;
+    --bg2: #161616;
+    --bg3: #1c1c1c;
+    --border: rgba(255,255,255,0.08);
+    --muted: rgba(240,236,228,0.75);
+    --faint: rgba(240,236,228,0.2);
+
+    /* ── Grid ── */
+    --max-w: 1440px;      /* centered container cap */
+    --gutter: 2.5rem;     /* outer edge spacing */
+    --content-x: 10rem;   /* main content left indent */
+    --top-offset: 9rem;   /* clearance below fixed nav */
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem var(--gutter);
+    background: rgba(14,14,14,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid rgba(244,184,203,0.18);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--cream);
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .nav-switcher {
+    display: flex;
+    background: rgba(255,255,255,0.05);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .switch-btn {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    color: rgba(240,236,228,0.4);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: background 0.50s, color 0.35s;
+  }
+
+  .switch-btn.active-ux  { background: var(--pink); color: #1a0a10; }
+  .switch-btn.active-photo { background: var(--gold); color: #1a1200; }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(240,236,228,0.4);
+  }
+
+  .nav-links a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--pink); }
+
+  /* ── PAGES ── */
+  .page { display: none; max-width: var(--max-w); margin-inline: auto; }
+  .page.active { display: block; }
+
+  /* ── HERO ── */
+  .hero-row {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 0.5px solid rgba(244,184,203,0.18);
+  }
+
+  .hero {
+    padding: var(--top-offset) var(--gutter) 4rem var(--content-x);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .hero-image-panel {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: var(--top-offset) var(--gutter) 4rem;
+    overflow: hidden;
+  }
+
+  .hero-img-placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: var(--bg3);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240,236,228,0.2);
+  }
+
+  /* ── HERO IMAGE STACK ── */
+  .hero-img-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 62%;
+  }
+
+  .hero-img-card {
+    width: 82%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    background: var(--bg3);
+    flex-shrink: 0;
+  }
+
+  .hero-img-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-img-card .hero-img-placeholder {
+    aspect-ratio: unset;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  #pageUx .hero-img-card { aspect-ratio: 16 / 9; }
+  #pageUx .hero-img-stack { width: 82%; }
+  #pageUx .hero-img-card.front { margin-top: -22%; }
+
+  /* Photo: side-by-side, one card shifted up */
+  #pagePhoto .hero-img-stack {
+    flex-direction: row;
+    align-items: center;
+    width: 86%;
+    gap: 0;
+  }
+  #pagePhoto .hero-img-card {
+    aspect-ratio: 4 / 5;
+    max-height: 46vh;
+    width: auto;
+    flex-shrink: 0;
+  }
+  #pagePhoto .hero-img-card.back {
+    align-self: auto;
+    transform: rotate(-3deg) translateY(-18px);
+  }
+  #pagePhoto .hero-img-card.front {
+    align-self: auto;
+    transform: rotate(2.5deg) translateY(18px);
+    margin-top: 0;
+    margin-left: -10%;
+  }
+  #pagePhoto.page.active .hero-img-card.back {
+    animation: cardPhotoBackSettle 0.7s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s both;
+  }
+  #pagePhoto.page.active .hero-img-card.front {
+    animation: cardPhotoFrontSettle 0.7s cubic-bezier(0.34, 1.4, 0.64, 1) 0.24s both;
+  }
+  @keyframes cardPhotoBackSettle {
+    from { opacity: 0; transform: rotate(-6deg) translateY(-36px) scale(0.93); }
+    to   { opacity: 1; transform: rotate(-3deg) translateY(-18px) scale(1); }
+  }
+  @keyframes cardPhotoFrontSettle {
+    from { opacity: 0; transform: rotate(5deg) translateY(36px) scale(0.93); }
+    to   { opacity: 1; transform: rotate(2.5deg) translateY(18px) scale(1); }
+  }
+
+  .hero-img-card.back {
+    align-self: flex-start;
+    transform: rotate(3.5deg);
+    z-index: 1;
+    position: relative;
+  }
+
+  .hero-img-card.front {
+    align-self: flex-end;
+    transform: rotate(-2.5deg);
+    margin-top: -36%;
+    z-index: 2;
+    position: relative;
+  }
+
+  @keyframes cardBackSettle {
+    from { opacity: 0; transform: rotate(8deg) translateY(36px) scale(0.93); }
+    to   { opacity: 1; transform: rotate(3.5deg) translateY(0) scale(1); }
+  }
+  @keyframes cardFrontSettle {
+    from { opacity: 0; transform: rotate(-6deg) translateY(36px) scale(0.93); }
+    to   { opacity: 1; transform: rotate(-2.5deg) translateY(0) scale(1); }
+  }
+
+  .page.active .hero-img-card.back {
+    animation: cardBackSettle 0.7s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s both;
+  }
+  .page.active .hero-img-card.front {
+    animation: cardFrontSettle 0.7s cubic-bezier(0.34, 1.4, 0.64, 1) 0.24s both;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 1.25rem;
+  }
+
+  .eyebrow-gold { color: var(--gold); }
+
+  .headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(44px, 7vw, 72px);
+    font-weight: 900;
+    line-height: 1.0;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+
+  .headline em { font-style: italic; color: var(--pink); }
+  .headline .gold { color: var(--gold); }
+
+  .hero-body {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.8;
+    margin-bottom: 1.75rem;
+  }
+
+  .tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 13px;
+    border-radius: 999px;
+    font-weight: 400;
+  }
+
+  .tag-pink { background: rgba(244,184,203,0.12); color: var(--pink); border: 0.5px solid rgba(244,184,203,0.25); }
+  .tag-gold { background: rgba(245,200,74,0.1);  color: var(--gold); border: 0.5px solid rgba(245,200,74,0.2); }
+  .tag-lav  { background: rgba(196,174,240,0.1); color: var(--lav);  border: 0.5px solid rgba(196,174,240,0.2); }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream);
+    margin-bottom: 0;
+  }
+
+  /* ── WORK GRID ── */
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 1rem;
+    padding: 0 var(--gutter) 3rem var(--content-x);
+  }
+
+  .case-card {
+    background: var(--bg2);
+    padding: 2rem;
+    cursor: pointer;
+    border-radius: 14px;
+    border: 0.5px solid rgba(244,184,203,0.22);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+    transition: background 0.25s, border-color 0.25s, box-shadow 0.25s, color 0.25s;
+    text-align: left;
+    color: inherit;
+    font-family: inherit;
+  }
+
+  .case-card:hover {
+    background: var(--pink);
+    border-color: var(--pink);
+    box-shadow: 0 8px 36px rgba(244,184,203,0.18);
+  }
+
+  .case-card:hover .case-title { color: #1a0a10; }
+  .case-card:hover .case-num  { color: rgba(26,10,16,0.35); }
+  .case-card:hover .case-co   { color: rgba(26,10,16,0.55); }
+  .case-card:hover .case-desc { color: rgba(26,10,16,0.75); }
+  .case-card:hover .chip {
+    background: rgba(26,10,16,0.08);
+    color: rgba(26,10,16,0.55);
+  }
+
+  .case-num {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: rgba(240,236,228,0.2);
+    margin-bottom: 0.5rem;
+  }
+
+  .case-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 0.4rem;
+    line-height: 1.2;
+  }
+
+  .case-co {
+    font-size: 11px;
+    color: var(--pink);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+  }
+
+  .case-desc {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 0.85rem;
+  }
+
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .chip {
+    font-size: 11px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 4px;
+    color: rgba(240,236,228,0.4);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    padding: 1.5rem var(--gutter) 1.5rem var(--content-x);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-top: 0.5px solid rgba(244,184,203,0.18);
+  }
+
+  .footer-cta {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--pink);
+    text-decoration: none;
+  }
+
+  .footer-copy {
+    font-size: 11px;
+    color: var(--faint);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── GLOBAL SECTIONS CONTAINER ── */
+  #globalSections {
+    max-width: var(--max-w);
+    margin-inline: auto;
+  }
+
+  /* ── ABOUT SECTION ── */
+  .about-section {
+    display: grid;
+    grid-template-columns: 1fr 30%;
+    grid-template-areas:
+      "label  image"
+      "body   image";
+    align-items: stretch;
+    border-top: 0.5px solid rgba(244,184,203,0.18);
+  }
+
+  .about-content {
+    grid-area: body;
+    padding: 0 var(--gutter) 5rem var(--content-x);
+  }
+
+  .about-image-panel {
+    grid-area: image;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem var(--gutter);
+  }
+
+  .about-img-placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: var(--bg3);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240,236,228,0.2);
+  }
+
+  .about-label {
+    grid-area: label;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgb(240, 236, 228);
+    padding: 5rem var(--gutter) 1.5rem var(--content-x);
+  }
+
+  .about-text {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.9;
+  }
+
+  .about-text p + p { margin-top: 1.2rem; }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    padding: 4rem var(--gutter) 6rem var(--content-x);
+    border-top: 0.5px solid rgba(244,184,203,0.18);
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pink);
+    text-decoration: none;
+    border-bottom: 0.5px solid rgba(244,184,203,0.3);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .contact-link:hover { color: var(--cream); border-color: rgba(240,236,228,0.3); }
+
+  /* ── CASE STUDY PAGE ── */
+  .cs-page { display: none; max-width: var(--max-w); margin-inline: auto; }
+  .cs-page.active { display: block; }
+
+  .cs-back {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240,236,228,0.4);
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: inherit;
+    padding: var(--top-offset) var(--gutter) 0;
+    max-width: 820px;
+    margin-inline: auto;
+    transition: color 0.2s;
+  }
+
+  .cs-back:hover { color: var(--pink); }
+
+  .cs-hero {
+    padding: 2rem var(--gutter) 3rem;
+    max-width: 820px;
+    margin-inline: auto;
+    border-bottom: 0.5px solid rgba(244,184,203,0.18);
+  }
+
+  .cs-company {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 0.75rem;
+  }
+
+  .cs-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 1rem;
+  }
+
+  .cs-title em { font-style: italic; color: var(--pink); }
+
+  .cs-summary {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.8;
+  }
+
+  .cs-meta {
+    display: flex;
+    gap: 0;
+    max-width: 820px;
+    margin-inline: auto;
+    border-top: 0.5px solid rgba(244,184,203,0.18);
+    border-bottom: 0.5px solid rgba(244,184,203,0.18);
+  }
+
+  .cs-meta-item {
+    padding: 1.25rem var(--gutter);
+    flex: 1;
+  }
+
+  .cs-meta-label {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgb(240, 236, 228);
+    margin-bottom: 0.4rem;
+  }
+
+  .cs-meta-val {
+    font-size: 13px;
+    color: var(--cream);
+    font-weight: 400;
+  }
+
+  .cs-body {
+    max-width: 720px;
+    padding: 3rem var(--gutter) 5rem;
+    margin-inline: auto;
+  }
+
+  .cs-section {
+    margin-bottom: 3rem;
+  }
+
+  .cs-section-title {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+  }
+
+  /* ── COMPONENT EMBED ── */
+  .cs-embed {
+    margin: 1.75rem 0 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #1c1e22;
+    border: 0.5px solid rgba(244,184,203,0.14);
+  }
+
+  .cs-embed-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.6rem 1rem;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 0.5px solid rgba(255,255,255,0.06);
+  }
+
+  .cs-embed-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .cs-embed-bar-label {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.22);
+    margin-left: 0.5rem;
+  }
+
+  .cs-embed-body {
+    padding: 2.25rem 2rem;
+  }
+
+  /* Scoped SEI audience selector */
+  .cs-embed .seic-hero-audience__audience-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    width: 365px;
+    max-width: 100%;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: -0.1px;
+    line-height: 26px;
+    -webkit-font-smoothing: antialiased;
+    font-variant-numeric: lining-nums;
+  }
+
+  .cs-embed .seic-hero-audience__audience-selector {
+    font-size: 18px;
+    line-height: 26px;
+    letter-spacing: -0.1px;
+    color: rgba(255,255,255,0.45);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+  }
+
+  .cs-embed .seic-hero-audience__audience-button {
+    display: flex;
+  }
+
+  .cs-embed .seic-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    background: #fff;
+    border: 1px solid #fff;
+    border-radius: 28px;
+    height: 56px;
+    text-decoration: none;
+    color: #131517;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.1px;
+    line-height: 26px;
+    cursor: pointer;
+    transition: background 0.15s, opacity 0.15s;
+    width: 100%;
+    -webkit-font-smoothing: antialiased;
+    font-variant-numeric: lining-nums;
+  }
+
+  .cs-embed .seic-pill:hover {
+    background: rgba(255,255,255,0.88);
+    border-color: rgba(255,255,255,0.88);
+  }
+
+  .cs-embed .seic-pill__text {
+    flex: 1;
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    color: #131517;
+    letter-spacing: -0.1px;
+    line-height: 20px;
+    text-align: left;
+  }
+
+  .cs-embed .seic-pill__icon {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 100px;
+    background: #131517;
+    color: #ffffff;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .cs-embed .seic-pill__icon svg {
+    width: 14px;
+    height: 12px;
+    display: block;
+  }
+
+  /* Per-pill hover icon colors */
+  .cs-embed .seic-hero-audience__audience-buttons > div:nth-child(2) .seic-pill:hover .seic-pill__icon { background: #2AA5D6; color: #131517; }
+  .cs-embed .seic-hero-audience__audience-buttons > div:nth-child(3) .seic-pill:hover .seic-pill__icon { background: #AAD037; color: #131517; }
+  .cs-embed .seic-hero-audience__audience-buttons > div:nth-child(4) .seic-pill:hover .seic-pill__icon { background: #F58020; color: #131517; }
+  .cs-embed .seic-hero-audience__audience-buttons > div:nth-child(5) .seic-pill:hover .seic-pill__icon { background: #FED000; color: #131517; }
+
+  .cs-text {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.85;
+  }
+
+  .cs-text + .cs-text { margin-top: 0.85rem; }
+
+  .cs-bullets {
+    list-style: none;
+    margin-top: 0.75rem;
+  }
+
+  .cs-bullets li {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.7;
+    padding: 0.5rem 0;
+    padding-left: 1.25rem;
+    position: relative;
+  }
+
+  .cs-bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--pink);
+    font-size: 12px;
+  }
+
+  .cs-callout {
+    background: var(--bg2);
+    border-left: 2px solid var(--pink);
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .cs-callout-label {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 0.4rem;
+  }
+
+  .cs-callout-text {
+    font-size: 14px;
+    color: var(--cream);
+    line-height: 1.7;
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .cs-impact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-top: 1rem;
+  }
+
+  .cs-impact-card {
+    background: var(--bg2);
+    padding: 1.5rem;
+  }
+
+  .cs-impact-label {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(240,236,228,0.25);
+    margin-bottom: 0.5rem;
+  }
+
+  .cs-impact-text {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .cs-nav-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem var(--gutter);
+    max-width: 820px;
+    margin-inline: auto;
+    border-top: 0.5px solid rgba(244,184,203,0.18);
+  }
+
+  .cs-nav-btn {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240,236,228,0.35);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.2s;
+  }
+
+  .cs-nav-btn:hover { color: var(--pink); }
+  .cs-nav-btn.disabled { opacity: 0.2; pointer-events: none; }
+
+  /* ── PHOTO PAGE ── */
+  .photo-hero {
+    padding: var(--top-offset) var(--gutter) 4rem var(--content-x);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .photo-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(44px, 7vw, 72px);
+    font-weight: 900;
+    line-height: 1.0;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+
+  .photo-headline em { font-style: italic; color: var(--gold); }
+
+  .photo-sub {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.8;
+    margin-bottom: 1.75rem;
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 0;
+    margin-top: 2rem;
+  }
+
+  .photo-cell {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--bg2);
+  }
+
+  .photo-cell:first-child {
+    grid-row: span 2;
+    min-height: 420px;
+  }
+
+  .photo-cell:not(:first-child) {
+    min-height: 200px;
+  }
+
+  .photo-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    transition: transform 0.4s ease;
+    overflow: hidden;
+  }
+
+  .photo-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo-cell:hover .photo-inner { transform: scale(1.05); }
+
+  .photo-bg-1 { background: #1c1510; }
+  .photo-bg-2 { background: #0f1015; }
+  .photo-bg-3 { background: #18130f; }
+  .photo-bg-4 { background: #0d1210; }
+  .photo-bg-5 { background: #141010; }
+
+  .photo-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(transparent, rgba(0,0,0,0.75));
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    z-index: 1;
+  }
+
+  .photo-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(240,236,228,0.55);
+  }
+
+  .photo-loc {
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+  }
+
+  .photo-footer-cta {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  /* ── PHOTO TABS ── */
+  .photo-tabs {
+    padding: 3rem var(--gutter) 0 var(--content-x);
+    border-top: 0.5px solid rgba(244,184,203,0.18);
+  }
+
+  .photo-tab-bar {
+    display: flex;
+    align-items: flex-end;
+    border-bottom: 0.5px solid rgba(244,184,203,0.18);
+  }
+
+  .photo-tab-btn {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: rgba(240,236,228,0.3);
+    background: none;
+    border: none;
+    padding: 0 0 1.25rem;
+    margin-right: 3rem;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 0.4rem;
+  }
+
+  .photo-tab-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(240,236,228,0.2);
+    line-height: 1.8;
+    transition: color 0.2s;
+  }
+
+  .photo-tab-btn.active .photo-tab-desc { color: var(--muted); }
+
+  .photo-tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5px;
+    left: 0; right: 0;
+    height: 1.5px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  .photo-tab-btn.active { color: var(--cream); }
+  .photo-tab-btn.active::after { transform: scaleX(1); }
+
+  .photo-tab-panel {
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .photo-tab-panel.active {
+    display: grid;
+    animation: fadeUp 0.25s ease forwards;
+  }
+
+  .photo-tab-panel .photo-cell,
+  .photo-tab-panel .photo-cell:first-child {
+    grid-row: auto;
+    min-height: 0;
+    aspect-ratio: 3 / 4;
+  }
+
+  /* ── PHOTO MODAL ── */
+  .photo-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 400;
+    background: rgba(0,0,0,0.88);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .photo-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .photo-modal-inner {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .photo-modal.open .photo-modal-inner {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition-delay: 0.06s;
+  }
+
+  .photo-modal-img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240,236,228,0.15);
+    overflow: hidden;
+  }
+
+  .photo-modal-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo-modal-caption {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 0 0;
+  }
+
+  .photo-modal-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .photo-modal-loc {
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+  }
+
+  .photo-modal-close {
+    position: absolute;
+    top: -2.25rem;
+    right: 0;
+    background: none;
+    border: none;
+    color: rgba(240,236,228,0.35);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s;
+  }
+
+  .photo-modal-close:hover { color: var(--cream); }
+
+  /* ── PLACEHOLDER IMG ── */
+  .img-placeholder {
+    width: 100%;
+    background: var(--bg3);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem 0;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240,236,228,0.2);
+    min-height: 200px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 0;
+    background: transparent;
+    margin: 0;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .page.active .hero,
+  .page.active .photo-hero {
+    animation: fadeUp 0.4s ease forwards;
+  }
+
+  .page.active .hero-image-panel { opacity: 1; }
+
+  .case-card { animation: fadeUp 0.35s ease both; }
+  .case-card:nth-child(1) { animation-delay: 0.05s; }
+  .case-card:nth-child(2) { animation-delay: 0.1s; }
+  .case-card:nth-child(3) { animation-delay: 0.15s; }
+
+  /* ── VINYL PLAYER ── */
+  .vinyl-player {
+    margin-top: 2.5rem;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1rem 1rem 1.25rem;
+    border-radius: 18px;
+    background: var(--bg2);
+    box-shadow: 0 4px 28px rgba(0,0,0,0.45),
+                inset 0 0.5px 0 rgba(255,255,255,0.05);
+  }
+
+  .vinyl-disc-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .vinyl-toggle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: default;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  }
+
+  .vinyl-disc {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: conic-gradient(
+      #1a1a1a 0deg,#2d2d2d 30deg,#1a1a1a 60deg,
+      #2d2d2d 90deg,#1a1a1a 120deg,#2d2d2d 150deg,
+      #1a1a1a 180deg,#2d2d2d 210deg,#1a1a1a 240deg,
+      #2d2d2d 270deg,#1a1a1a 300deg,#2d2d2d 330deg,#1a1a1a 360deg
+    );
+    animation: spin 7s linear infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .vinyl-disc::after {
+    content: '';
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--pink);
+    box-shadow: 0 0 8px rgba(244,184,203,0.5);
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .vinyl-status {
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(244,184,203,0.45);
+    width: 50px;
+    text-align: center;
+    overflow-wrap: break-word;
+    line-height: 1.4;
+  }
+
+  /* Spotify embed panel */
+  .vinyl-pill {
+    display: block;
+    width: 380px;
+    height: 162px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .vinyl-pill iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+
+    /* 1. Reset spacing tokens */
+    :root {
+      --content-x: 1.25rem;
+      --gutter:    1.25rem;
+      --top-offset: 5rem;
+    }
+
+    /* 2. Stack hero — text above fold, image below at half-viewport */
+    .hero-row { flex-direction: column; min-height: unset; }
+    .hero { padding: var(--top-offset) var(--gutter) 2rem var(--content-x); }
+    .hero-image-panel {
+      border-top: 0.5px solid rgba(244,184,203,0.18);
+      padding: 1.25rem var(--gutter);
+      height: 45vh;
+    }
+    .hero-img-stack {
+      flex-direction: row;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+    }
+    .hero-img-card {
+      width: 46%;
+      height: 90%;
+      aspect-ratio: unset;
+    }
+    #pageUx .hero-img-card { aspect-ratio: unset; }
+    .hero-img-card.back {
+      align-self: center;
+      transform: rotate(3deg);
+    }
+    .hero-img-card.front {
+      align-self: center;
+      transform: rotate(-2deg);
+      margin-top: 0;
+      margin-left: -12%;
+    }
+    .hero-img-placeholder {
+      width: auto;
+      height: 100%;
+    }
+
+    /* 3. About: label → image → text on mobile */
+    .about-section {
+      display: flex;
+      flex-direction: column;
+    }
+    .about-label { padding: 2rem var(--content-x) 0.75rem; }
+    .about-image-panel {
+      border-top: 0.5px solid rgba(244,184,203,0.18);
+      border-bottom: 0.5px solid rgba(244,184,203,0.18);
+      padding: 1.25rem var(--gutter);
+      height: 45vh;
+    }
+    .about-content { padding: 0 var(--content-x) 2rem; }
+    .about-img-placeholder {
+      width: auto;
+      height: 100%;
+    }
+
+    /* 3b. Photo hero: restore portrait ratio so images aren't cropped */
+    #pagePhoto .hero-image-panel {
+      overflow: visible;
+      height: auto;
+      padding: 1.5rem var(--gutter) 2rem;
+      align-items: center;
+    }
+    #pagePhoto .hero-img-card {
+      width: 42%;
+      height: auto;
+      aspect-ratio: 4/5;
+    }
+
+    /* 4. Hide desktop nav links on mobile */
+    .nav-links { display: none; }
+
+    /* 5. Vinyl pill stretches to fill remaining space */
+    .vinyl-player { flex-direction: column; align-items: flex-start; width: 100%; }
+    .vinyl-pill { width: 100%; }
+
+    /* 6. Ease prose width constraints */
+    .hero-body, .photo-sub { max-width: 100%; }
+
+    /* 7. Work grid → single column */
+    .work-grid { grid-template-columns: 1fr; }
+
+    /* 8. Photo grid → single column */
+    .photo-grid { grid-template-columns: 1fr; }
+    .photo-cell:first-child { grid-row: auto; min-height: 260px; }
+    .photo-cell:not(:first-child) { min-height: 200px; }
+
+    /* 9. Case study meta row → 2-up wrap */
+    .cs-meta { flex-wrap: wrap; }
+    .cs-meta-item { flex: 0 0 50%; }
+
+    /* 10. Case study impact grid → single column */
+    .cs-impact-grid { grid-template-columns: 1fr; }
+
+    /* 11. Photo tab panel → 2 columns on mobile */
+    .photo-tab-panel { grid-template-columns: repeat(2, 1fr); }
+    .photo-tabs { padding: 2rem var(--content-x) 0; }
+    .photo-tab-btn { font-size: 15px; margin-right: 1.5rem; }
+    .photo-tab-desc { font-size: 13px; }
+  }
+
+  /* ── REDUCED MOTION ── */
+  @media (prefers-reduced-motion: reduce) {
+    .vinyl-disc,
+    .vinyl-pill-disc { animation: none; }
+
+    .page.active .hero,
+    .page.active .photo-hero,
+    .page.active .hero-image-panel,
+    .page.active .hero-img-card.back,
+    .page.active .hero-img-card.front,
+    #pagePhoto.page.active .hero-img-card.back,
+    #pagePhoto.page.active .hero-img-card.front,
+    .case-card { animation: none; opacity: 1; transform: none; }
+
+    .vinyl-pill.open { animation: none; }
+  }
+
+  /* ── PASSWORD GATE ── */
+  .pw-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    transition: opacity 0.5s ease;
+  }
+  .pw-gate.fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .pw-card {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .pw-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(244,184,203,0.55);
+  }
+  .pw-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--cream);
+  }
+  .pw-heading em { font-style: italic; color: var(--pink); }
+  .pw-sub {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-top: -0.5rem;
+  }
+  .pw-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .pw-input {
+    background: var(--bg2);
+    border: 0.5px solid rgba(244,184,203,0.22);
+    border-radius: 8px;
+    padding: 0.85rem 1.1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--cream);
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .pw-input::placeholder { color: rgba(240,236,228,0.25); }
+  .pw-input:focus { border-color: rgba(244,184,203,0.6); }
+  .pw-input.shake {
+    animation: pwShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    border-color: rgba(244,184,203,0.7);
+  }
+  @keyframes pwShake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-7px); }
+    40%       { transform: translateX(7px); }
+    60%       { transform: translateX(-5px); }
+    80%       { transform: translateX(5px); }
+  }
+  .pw-error {
+    font-size: 12px;
+    color: var(--pink);
+    letter-spacing: 0.04em;
+    min-height: 1rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .pw-error.visible { opacity: 1; }
+  .pw-btn {
+    background: var(--pink);
+    color: #1a0a10;
+    border: none;
+    border-radius: 8px;
+    padding: 0.85rem 1.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    align-self: flex-start;
+  }
+  .pw-btn:hover { opacity: 0.85; }
+
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div class="pw-gate" id="pwGate">
+  <div class="pw-card">
+    <div class="pw-eyebrow">Portfolio access</div>
+    <h1 class="pw-heading">Hey there, welcome.<br><em>Password?</em></h1>
+    <p class="pw-sub">This is a private portfolio. Enter the password to continue.</p>
+    <div class="pw-field">
+      <input
+        class="pw-input"
+        id="pwInput"
+        type="password"
+        placeholder="Enter password"
+        autocomplete="off"
+        autofocus
+      />
+      <span class="pw-error" id="pwError">Incorrect password — try again.</span>
+    </div>
+    <button class="pw-btn" onclick="checkPassword()">Enter →</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" onclick="showHome()">Cindy Nguyen</a>
+
+  <div class="nav-switcher">
+    <button class="switch-btn active-ux" id="btnUx" onclick="setMode('ux')">UX Design</button>
+    <button class="switch-btn" id="btnPhoto" onclick="setMode('photo')">Photography</button>
+  </div>
+
+  <div class="nav-links" id="navLinks">
+    <a href="#" id="navWork">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+</nav>
+
+<!-- ══════════════════════════════════════
+     UX PAGE
+══════════════════════════════════════ -->
+<div class="page active" id="pageUx">
+
+  <!-- Hero -->
+  <div class="hero-row">
+    <section class="hero">
+      <div class="eyebrow">UX Designer · Fintech &amp; Operations</div>
+      <h1 class="headline">
+        Design that<br><em>moves</em> &amp; <span class="gold">holds.</span>
+      </h1>
+      <p class="hero-body">
+        I'm Cindy Nguyen, a UX designer who started in biology and ended up here, which honestly makes a lot of sense. I'm drawn to systems, to the logic underneath things, and to making something complex feel like it was always simple. I work in fintech and operations, and I bring a visual-forward perspective to a space that usually leads with function over form.
+      </p>
+      <div class="tags">
+        <span class="tag tag-pink">Visual-forward</span>
+        <span class="tag tag-gold">Fintech</span>
+        <span class="tag tag-lav">Interaction design</span>
+      </div>
+    </section>
+    <div class="hero-image-panel">
+      <div class="hero-img-stack">
+        <div class="hero-img-card back">
+          <div class="hero-img-placeholder">[ Image ]</div>
+        </div>
+        <div class="hero-img-card front">
+          <div class="hero-img-placeholder">[ Image ]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Work -->
+  <div id="work" style="padding: 3rem 0 0;">
+    <div class="section-label" style="padding-left: var(--content-x);">Selected work</div>
+    <div class="work-grid" style="margin-top: 1rem;">
+      <button class="case-card" onclick="openCase(0)">
+        <div class="case-num">01</div>
+        <div class="case-title">Global Careers Site</div>
+        <div class="case-co">SEI Investments</div>
+        <div class="case-desc">Leading the UX transition of a retiring third-party careers platform to the global marketing site.</div>
+        <div class="chips">
+          <span class="chip">UX Strategy</span>
+          <span class="chip">Information Architecture</span>
+          <span class="chip">Drupal</span>
+        </div>
+      </button>
+      <button class="case-card" onclick="openCase(1)">
+        <div class="case-num">02</div>
+        <div class="case-title">Social Media Visual System</div>
+        <div class="case-co">SEI Investments</div>
+        <div class="case-desc">Building a cohesive design system for a global company's social media presence across business markets.</div>
+        <div class="chips">
+          <span class="chip">Design Systems</span>
+          <span class="chip">Brand</span>
+          <span class="chip">LinkedIn</span>
+        </div>
+      </button>
+      <button class="case-card" onclick="openCase(2)">
+        <div class="case-num">03</div>
+        <div class="case-title">Homepage self-identifiers</div>
+        <div class="case-co">SEI Investments</div>
+        <div class="case-desc">Reimagining an audience-scattered homepage into a self-identifying, segment-driven experience.</div>
+        <div class="chips">
+          <span class="chip">UX & UI Design</span>
+          <span class="chip">Research</span>
+          <span class="chip">Figma</span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     PHOTOGRAPHY PAGE
+══════════════════════════════════════ -->
+<div class="page" id="pagePhoto">
+  <div class="hero-row">
+    <section class="photo-hero">
+      <div class="eyebrow eyebrow-gold">Photography</div>
+      <h2 class="photo-headline">Seeing <em>slowly</em><br>in a fast world.</h2>
+      <p class="photo-sub">It started as a creative outlet and quietly became a practice that sharpens how I see — the light, the composition, the weight of a place. It makes me a more patient designer, even when I'm not thinking about design at all.</p>
+      <div class="tags">
+        <span class="tag tag-pink">People in place</span>
+        <span class="tag tag-lav">Portraits</span>
+        <span class="tag tag-gold">Moments</span>
+      </div>
+    </section>
+    <div class="hero-image-panel">
+      <div class="hero-img-stack">
+        <div class="hero-img-card back">
+          <img src="images/grindelwald-gondola.jpg" alt="A gondola over the snowy mountains of Grindelwald" />
+        </div>
+        <div class="hero-img-card front">
+          <img src="images/osaka-donburi.jpg" alt="A donburi dish in Osaka" />
+        </div>
+      </div>
+    </div>
+  </div><!-- /.hero-row -->
+
+  <!-- ── PHOTO TABS ── -->
+  <div class="photo-tabs" id="gallery">
+    <div class="photo-tab-bar">
+      <button class="photo-tab-btn active" data-tab="people" onclick="setPhotoTab('people')">
+        <span>People in place</span>
+        <span class="photo-tab-desc">Big world, small human</span>
+      </button>
+      <button class="photo-tab-btn" data-tab="portraits" onclick="setPhotoTab('portraits')">
+        <span>Portraits</span>
+        <span class="photo-tab-desc">Candid over posed. Always.</span>
+      </button>
+      <button class="photo-tab-btn" data-tab="moments" onclick="setPhotoTab('moments')">
+        <span>Moments</span>
+        <span class="photo-tab-desc">Take a pic, it lasts longer</span>
+      </button>
+    </div>
+
+    <!-- People in place -->
+    <div class="photo-tab-panel active" id="ptab-people">
+      <div class="photo-cell"><div class="photo-inner"><img src="images/ski-lift-zermatt.jpg" alt="A ski lift holding four skiers in a wide shot in Zermatt" /></div><div class="photo-overlay"><span class="photo-label">Lift</span><span class="photo-loc">Zermatt, CH</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/joshua-tree.jpg" alt="A young woman standing on big boulders" /></div><div class="photo-overlay"><span class="photo-label">Be bould</span><span class="photo-loc">Joshua Tree</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/oxford-christ-church.jpg" alt="A man wearing headphones looking at a church architecture" /></div><div class="photo-overlay"><span class="photo-label">Christ Church</span><span class="photo-loc">Oxford, UK</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/kyoto-park.jpg" alt="A senior man relaxing on a bench by a lake" /></div><div class="photo-overlay"><span class="photo-label">Unwind</span><span class="photo-loc">Kyoto, JP</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/fuji-lawson.jpg" alt="A group of friends infront of a convenience store infront of Mount Fuji" /></div><div class="photo-overlay"><span class="photo-label">Fuji's Lawson</span><span class="photo-loc">Fujikawaguchiko, JP</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/grindelwald-first.jpg" alt="A woman standing tinily in a mass of snowy mountains" /></div><div class="photo-overlay"><span class="photo-label">Peaked</span><span class="photo-loc">Grindelwald, CH</span></div></div>
+    </div>
+
+    <!-- Portraits -->
+    <div class="photo-tab-panel" id="ptab-portraits">
+      <div class="photo-cell"><div class="photo-inner"><img src="images/headhouse-square-engagement.jpg" alt="A newly engaged couple sitting on a rowhouse stoop" /></div><div class="photo-overlay"><span class="photo-label">Wotaing</span><span class="photo-loc">Philadelphia, PA</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/micro-wedding.jpg" alt="A wedded couple walking together on a romantic paved path" /></div><div class="photo-overlay"><span class="photo-label">New beginnings</span><span class="photo-loc">Malvern, PA</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/graduation-walkway.jpg" alt="A college graduate posing in her gown and cap" /></div><div class="photo-overlay"><span class="photo-label">Congrads</span><span class="photo-loc">Philadelphia, PA</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/art-museum-engagement.jpg" alt="A black and white shot of a newly engaged couple walking down the museum steps" /></div><div class="photo-overlay"><span class="photo-label">Nimbae</span><span class="photo-loc">Philadelphia, PA</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/graduate-headshot.jpg" alt="A close-up shot of a young woman wearing white" /></div><div class="photo-overlay"><span class="photo-label">Jakki</span><span class="photo-loc">Philadelphia, PA</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/kyoto-engagement.jpg" alt="A dramatic silhouette shot of a couple with lanterns behind them" /></div><div class="photo-overlay"><span class="photo-label">Lanterns</span><span class="photo-loc">Kyoto, JP</span></div></div>
+    </div>
+
+    <!-- Moments -->
+    <div class="photo-tab-panel" id="ptab-moments">
+      <div class="photo-cell"><div class="photo-inner"><img src="images/ring-closeup.jpg" alt="A close up shot of the bride's ring while holding bouquet" /></div><div class="photo-overlay"><span class="photo-label">Details matter</span><span class="photo-loc">Malvern, PA</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/behind-the-dj.jpg" alt="A DJ performing for a crowd in a music venue" /></div><div class="photo-overlay"><span class="photo-label">Behind the DJ</span><span class="photo-loc">Philadelphia, PA</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/friendship-in-philly.jpg" alt="A high exposure hug shared between friends" /></div><div class="photo-overlay"><span class="photo-label">Philly</span><span class="photo-loc">Philadelphia, PA</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/biking-palm-springs.jpg" alt="A young woman biking along the street with palm trees and mountain views" /></div><div class="photo-overlay"><span class="photo-label">DND</span><span class="photo-loc">Palm Springs, CA</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/graduate-cap.jpg" alt="A behind-the-cap shot of a newly graduate" /></div><div class="photo-overlay"><span class="photo-label">See ya</span><span class="photo-loc">Philadelphia,PA</span></div></div>
+      <div class="photo-cell"><div class="photo-inner"><img src="images/engaged-cake.jpg" alt="A flashy shot of a celebratory cake" /></div><div class="photo-overlay"><span class="photo-label">Extra icing</span><span class="photo-loc">Philadelphia, PA</span></div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     CASE STUDY — 01 Global Homepage
+══════════════════════════════════════ -->
+<div class="cs-page" id="cs0">
+  <button class="cs-back" onclick="closeCase()">← Back to work</button>
+
+  <div class="cs-hero">
+    <div class="cs-company">SEI Investments · UX Strategy &amp; Design · 6 months</div>
+    <h2 class="cs-title">Global <em>Careers Site</em></h2>
+    <p class="cs-summary">Leading the UX transition of a retiring third-party careers platform onto SEI's global marketing site — preserving three countries' worth of content while creating a seamless handoff to Workday.</p>
+  </div>
+
+  <div class="cs-meta">
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Role</div>
+      <div class="cs-meta-val">UX Lead</div>
+    </div>
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Timeline</div>
+      <div class="cs-meta-val">6 months</div>
+    </div>
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Platform</div>
+      <div class="cs-meta-val">Lucidmap, Figma, Drupal</div>
+    </div>
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Company</div>
+      <div class="cs-meta-val">SEI Investments</div>
+    </div>
+  </div>
+
+  <div class="cs-body">
+    <div class="cs-section">
+      <div class="cs-section-title">The problem</div>
+      <p class="cs-text">The existing third-party careers platform was being retired. The task: migrate all careers content to SEI's global marketing site — without the ability to host job listings directly. The destination site also couldn't replicate the original's three-country structure, creating a significant information architecture challenge.</p>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-title">Why it mattered</div>
+      <p class="cs-text">The careers site is the first touchpoint for prospective employees. Getting the transition wrong meant losing candidates before they even reached an application. The experience needed to educate visitors about SEI and then guide them seamlessly to Workday to apply — with no friction, no dead ends.</p>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-title">My role</div>
+      <p class="cs-text">As UX lead, I owned the audit of the current site — determining what content was still relevant and what needed updating before the transition. I also rebuilt the site map to maintain the spirit of the three-country structure on a global scale. I collaborated with project management, content owners, copywriters, and the Talent Acquisition and People & Culture teams throughout.</p>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-title">Approach</div>
+      <ul class="cs-bullets">
+        <li>Conducted a competitive landscape review of top financial industry peers to identify themes in how careers sections are structured and positioned.</li>
+        <li>Audited all existing content for relevance, flagging what needed updating before migration.</li>
+        <li>Rebuilt the site map to embrace the three-country structure within a global architecture.</li>
+        <li>Phase 1 testing: internal UX designers, developers, and analytics specialists validated technical functionality.</li>
+        <li>Phase 2 testing: Talent Acquisition and People & Culture stakeholders validated content accuracy and candidate experience.</li>
+      </ul>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-title">Solution</div>
+      <p class="cs-text">A reimagined careers section on seic.com that educates visitors about SEI as an employer, then creates a clear, intentional transition to Workday for all job-related actions. The global site map resolved the three-country challenge by embracing a unified structure with regional nuance built in.</p>
+      <div class="img-placeholder" style="min-height: 240px;">[ Site map / wireframes / final Drupal implementation ]</div>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-title">Impact</div>
+      <div class="cs-impact-grid">
+        <div class="cs-impact-card">
+          <div class="cs-impact-label">User experience</div>
+          <div class="cs-impact-text">Seamless transition from the marketing site to Workday, preserving the candidate journey with no dead ends or confusing handoffs.</div>
+        </div>
+        <div class="cs-impact-card">
+          <div class="cs-impact-label">Stakeholder validation</div>
+          <div class="cs-impact-text">Successfully signed off by both the internal technical team and the Talent Acquisition & People & Culture stakeholders through two phases of structured testing.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-nav-bottom">
+    <button class="cs-nav-btn disabled">← Previous</button>
+    <button class="cs-nav-btn" onclick="openCase(1)">Social Media Visual System →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     CASE STUDY — 02 Social Media Visual
+══════════════════════════════════════ -->
+<div class="cs-page" id="cs1">
+  <button class="cs-back" onclick="closeCase()">← Back to work</button>
+
+  <div class="cs-hero">
+    <div class="cs-company">SEI Investments · Design Systems · Ongoing</div>
+    <h2 class="cs-title">Social Media <em>Visual System</em></h2>
+    <p class="cs-summary">Establishing design systems and guidelines for a global company's social media presence — so every post, across every market, feels distinctly SEI.</p>
+  </div>
+
+  <div class="cs-meta">
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Role</div>
+      <div class="cs-meta-val">UX Strategist &amp; Designer</div>
+    </div>
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Timeline</div>
+      <div class="cs-meta-val">Ongoing (annual iteration)</div>
+    </div>
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Platform</div>
+      <div class="cs-meta-val">Figma, LinkedIn</div>
+    </div>
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Company</div>
+      <div class="cs-meta-val">SEI Investments</div>
+    </div>
+  </div>
+
+  <div class="cs-body">
+    <div class="cs-section">
+      <div class="cs-section-title">The problem</div>
+      <p class="cs-text">Creatives across SEI's business markets and segments were inconsistent — different teams producing assets with no shared visual language. The company needed a stronger, more distinguishable brand presence on social channels, particularly LinkedIn, without stripping each market of its core messaging.</p>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-title">Why it mattered</div>
+      <p class="cs-text">Inconsistency at scale erodes brand trust. Helping designers stay on-brand while creating assets that genuinely serve each segment's audience was both a creative and a business-critical challenge.</p>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-title">My role</div>
+      <p class="cs-text">I own the social media visual templates that live inside Figma, used daily by an in-house team of ~5 core designers. My contributions spanned auditing current templates, competitive landscape research, recommending solutions, implementing in workflow, and communicating directly with the core users of the system.</p>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-title">Approach</div>
+      <ul class="cs-bullets">
+        <li>Reviewed past campaigns to analyze which performed best and worst, then identified the visual narrative connecting the high performers.</li>
+        <li>Conducted competitive analysis of fintech companies and how they treat different content types across social.</li>
+        <li>A/B tested design elements within LinkedIn to inform template decisions with real engagement data.</li>
+        <li>Consulted the analytics owner and the inner UX team for feedback loops throughout the process.</li>
+      </ul>
+      <div class="cs-callout">
+        <div class="cs-callout-label">Key insight</div>
+        <div class="cs-callout-text">"Segments appeal more to distinct and bold design."</div>
+      </div>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-title">Solution</div>
+      <p class="cs-text">A visual template overhaul focused on clarity and boldness. Key updates included:</p>
+      <ul class="cs-bullets">
+        <li>Introduction of a new "statistic" template to elevate meaningful numbers that resonate across markets.</li>
+        <li>Revamped headshot post treatments to drive more engagement and sign-ups.</li>
+        <li>Re-introduction of in-graphic CTA buttons to drive interaction directly from the post.</li>
+        <li>Carousel treatments strongly encouraged across all content types.</li>
+        <li>All foundational branding elements preserved and carried over for consistency.</li>
+      </ul>
+      <div class="img-placeholder" style="min-height: 220px;">[ Template system / LinkedIn post examples ]</div>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-title">Impact</div>
+      <div class="cs-impact-grid">
+        <div class="cs-impact-card">
+          <div class="cs-impact-label">Conversion</div>
+          <div class="cs-impact-text">4 website conversions directly attributed to the newly designed carousel posts.</div>
+        </div>
+        <div class="cs-impact-card">
+          <div class="cs-impact-label">Internal adoption</div>
+          <div class="cs-impact-text">Templates actively used by ~5 core designers across the in-house team, standardizing the creative workflow at scale.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-nav-bottom">
+    <button class="cs-nav-btn" onclick="openCase(0)">← Global Careers Site</button>
+    <button class="cs-nav-btn" onclick="openCase(2)">Homepage self-identifiers →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     CASE STUDY — 03 Careers Site
+══════════════════════════════════════ -->
+<div class="cs-page" id="cs2">
+  <button class="cs-back" onclick="closeCase()">← Back to work</button>
+
+  <div class="cs-hero">
+    <div class="cs-company">SEI Investments · UX &amp; UI Design · 7 months</div>
+    <h2 class="cs-title">Homepage <em>self-identifiers</em></h2>
+    <p class="cs-summary">Restructuring and reimagining seic.com's homepage with an audience-centric focus — so visitors could self-identify and immediately reach content relevant to them.</p>
+  </div>
+
+  <div class="cs-meta">
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Role</div>
+      <div class="cs-meta-val">UX &amp; UI Designer</div>
+    </div>
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Timeline</div>
+      <div class="cs-meta-val">7 months</div>
+    </div>
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Platform</div>
+      <div class="cs-meta-val">Figma, Drupal</div>
+    </div>
+    <div class="cs-meta-item">
+      <div class="cs-meta-label">Company</div>
+      <div class="cs-meta-val">SEI Investments</div>
+    </div>
+  </div>
+
+  <div class="cs-body">
+    <div class="cs-section">
+      <div class="cs-section-title">The problem</div>
+      <p class="cs-text">Visitors were getting lost within seic.com and unsure which content was relevant to them. Because SEI serves multiple audience segments with different needs — institutional investors, financial advisors, private wealth clients — the homepage offered no clear entry point. The result was high abandonment and a confusing user journey across segments.</p>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-title">Why it mattered</div>
+      <p class="cs-text">Without a way to self-identify, visitors were left to navigate a site designed for many but optimized for none. The business needed a way to drive engagement and generate qualified leads — and that started at the front door.</p>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-title">My role</div>
+      <p class="cs-text">I assisted in executing the heuristic test and surveyed 40 individuals with 3 homepage options. Working alongside a UX strategist, analytics team, and frontend and backend developers, I led the wireframing and UI design, including the creation of a brand-new component: the <b>audience selector pills.</b></p>
+
+      <div class="cs-embed">
+        <div class="cs-embed-bar">
+          <span class="cs-embed-bar-label">Audience selector pills</span>
+        </div>
+        <div class="cs-embed-body">
+          <div class="seic-hero-audience__audience-buttons">
+            <p class="seic-hero-audience__audience-selector">
+              Select your role and get the solutions made for you.
+            </p>
+            <div class="seic-hero-audience__audience-button">
+              <a class="seic-pill seic-pill--secondary seic-pill--has-icon" href="#" onclick="return false;" aria-label="Asset managers">
+                <span class="seic-pill__text">Asset managers</span>
+                <span class="seic-pill__icon">
+                  <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H13.3333" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"/><path d="M8.66663 1.33337L13.3333 6.00004L8.66663 10.6667" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="square"/></svg>
+                </span>
+              </a>
+            </div>
+            <div class="seic-hero-audience__audience-button">
+              <a class="seic-pill seic-pill--secondary seic-pill--has-icon" href="#" onclick="return false;" aria-label="Banks and wealth managers">
+                <span class="seic-pill__text">Banks and wealth managers</span>
+                <span class="seic-pill__icon">
+                  <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H13.3333" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"/><path d="M8.66663 1.33337L13.3333 6.00004L8.66663 10.6667" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="square"/></svg>
+                </span>
+              </a>
+            </div>
+            <div class="seic-hero-audience__audience-button">
+              <a class="seic-pill seic-pill--secondary seic-pill--has-icon" href="#" onclick="return false;" aria-label="Financial advisors">
+                <span class="seic-pill__text">Financial advisors</span>
+                <span class="seic-pill__icon">
+                  <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H13.3333" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"/><path d="M8.66663 1.33337L13.3333 6.00004L8.66663 10.6667" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="square"/></svg>
+                </span>
+              </a>
+            </div>
+            <div class="seic-hero-audience__audience-button">
+              <a class="seic-pill seic-pill--secondary seic-pill--has-icon" href="#" onclick="return false;" aria-label="Institutional investors">
+                <span class="seic-pill__text">Institutional investors</span>
+                <span class="seic-pill__icon">
+                  <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H13.3333" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10"/><path d="M8.66663 1.33337L13.3333 6.00004L8.66663 10.6667" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="square"/></svg>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-title">Approach</div>
+      <ul class="cs-bullets">
+        <li>Conducted a usability test revealing that visitors abandoned the current journey because they didn't know where to click.</li>
+        <li>Performed competitive analysis of industry peers to identify patterns in audience-first navigation and self-identifier selection.</li>
+        <li>Surveyed 40 users across 3 homepage concepts to validate direction before committing to design.</li>
+        <li>Wireframed the homepage in Figma with audience-first positioning as the core principle, reducing friction for every possible journey.</li>
+        <li>Designed the pill-shaped audience selector buttons in the hero banner — a brand new component for the company.</li>
+      </ul>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-title">Solution</div>
+      <p class="cs-text">A simplified, decluttered homepage anchored by audience selector pills. Visitors are prompted to self-identify at entry, then guided to their relevant content section — with their selection persisting via an audience dropdown throughout their entire site experience, confirming they're always in the right place.</p>
+      <div class="cs-callout">
+        <div class="cs-callout-label">Key insight</div>
+        <div class="cs-callout-text">"People resonate with familiarity and what benefits them first. Seeing their role in an industry of many roles confirms they're in the right place."</div>
+      </div>
+      <div class="img-placeholder" style="min-height: 240px;">[ Homepage wireframe / final UI screenshot ]</div>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-title">Impact</div>
+      <div class="cs-impact-grid">
+        <div class="cs-impact-card">
+          <div class="cs-impact-label">User behavior</div>
+          <div class="cs-impact-text">Users overwhelmingly preferred the ease of selecting their role from the audience selector. Visitors tracked to have longer sessions once inside their relevant audience section.</div>
+        </div>
+        <div class="cs-impact-card">
+          <div class="cs-impact-label">Site metrics</div>
+          <div class="cs-impact-text">While overall traffic to the site reduced in the 21 days post-launch, visitors stayed on the site for a longer duration — a signal of higher content relevance and engagement quality.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-nav-bottom">
+    <button class="cs-nav-btn" onclick="openCase(1)">← Social Media Visual System</button>
+    <button class="cs-nav-btn disabled">Next →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     GLOBAL — always visible
+══════════════════════════════════════ -->
+<div id="globalSections">
+  <section class="about-section" id="about">
+    <div class="about-label">About</div>
+    <div class="about-image-panel">
+      <img src="images/about.jpg" alt="Cindy Nguyen" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" />
+    </div>
+    <div class="about-content">
+      <div class="about-text">
+        <p>I started college studying biology - pre-dental track, the whole thing. Then I took a design class on a whim and something clicked that hadn't clicked before. I switched paths, which felt risky at the time and obvious in hindsight. Turns out studying living systems and designing digital ones aren't that different: both are about understanding how things connect, where friction lives, and what it takes to make something feel effortless.</p>
+        <p>Now I'm a UX designer working in fintech and operations, the kind of design that has to earn trust fast and never get in the way. I care a lot about craft, and maybe a little too much about getting the details right.</p>
+        <p>Off the clock, I'm somewhere with a camera and probably a bowl of something warm. Photography taught me to slow down and actually look - which, it turns out, makes me a better designer too.</p>
+      </div>
+      <div class="vinyl-player">
+        <div class="vinyl-disc-section">
+          <div class="vinyl-toggle" id="vinylToggle">
+            <div class="vinyl-disc" id="vinylDiscBtn"></div>
+          </div>
+          <span class="vinyl-status">my current pushing pixels playlist</span>
+        </div>
+        <div class="vinyl-pill" id="vinylPill">
+          <iframe
+            src="https://open.spotify.com/embed/playlist/3NPHdCmzSsrA8DPzagRhSU?utm_source=generator&theme=0"
+            height="162"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section" id="contact">
+    <div class="section-label">Get in touch</div>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:cindyytnguyen306@gmail.com">Email</a>
+      <a class="contact-link" href="https://www.linkedin.com/in/cindesigns/" target="_blank">LinkedIn</a>
+      <a class="contact-link" href="https://instagram.com/cmonyt" target="_blank">Instagram</a>
+    </div>
+  </section>
+
+  <div class="footer">
+    <span class="footer-copy">Fueled by bone broth © 2026 Cindy Nguyen</span>
+  </div>
+</div>
+
+<script>
+  /* ── PASSWORD GATE ── */
+  const PW = 'portfolio';
+
+  (function initGate() {
+    if (sessionStorage.getItem('pw_ok') === '1') {
+      document.getElementById('pwGate').style.display = 'none';
+    }
+  })();
+
+  function checkPassword() {
+    const input = document.getElementById('pwInput');
+    const error = document.getElementById('pwError');
+    if (input.value === PW) {
+      sessionStorage.setItem('pw_ok', '1');
+      const gate = document.getElementById('pwGate');
+      gate.classList.add('fade-out');
+      setTimeout(() => gate.style.display = 'none', 500);
+    } else {
+      input.classList.remove('shake');
+      void input.offsetWidth; /* restart animation */
+      input.classList.add('shake');
+      input.addEventListener('animationend', () => input.classList.remove('shake'), { once: true });
+      error.classList.add('visible');
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('pwInput')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') checkPassword();
+      document.getElementById('pwError').classList.remove('visible');
+    });
+  });
+
+  /* ── MAIN SITE ── */
+  let currentMode = 'ux';
+
+  function setMode(mode) {
+    currentMode = mode;
+    document.getElementById('pageUx').classList.toggle('active', mode === 'ux');
+    document.getElementById('pagePhoto').classList.toggle('active', mode === 'photo');
+    document.getElementById('btnUx').className = 'switch-btn' + (mode === 'ux' ? ' active-ux' : '');
+    document.getElementById('btnPhoto').className = 'switch-btn' + (mode === 'photo' ? ' active-photo' : '');
+    document.getElementById('globalSections').style.display = '';
+
+    // close any open case study
+    document.querySelectorAll('.cs-page').forEach(p => p.classList.remove('active'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function openCase(idx) {
+    document.getElementById('pageUx').classList.remove('active');
+    document.getElementById('pagePhoto').classList.remove('active');
+    document.querySelectorAll('.cs-page').forEach(p => p.classList.remove('active'));
+    document.getElementById('cs' + idx).classList.add('active');
+    document.getElementById('globalSections').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function closeCase() {
+    document.querySelectorAll('.cs-page').forEach(p => p.classList.remove('active'));
+    setMode(currentMode);
+    setTimeout(() => {
+      const work = document.getElementById('work');
+      if (work) work.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+
+  function showHome() {
+    setMode('ux');
+  }
+
+  function setPhotoTab(tab) {
+    document.querySelectorAll('.photo-tab-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tab === tab);
+    });
+    document.querySelectorAll('.photo-tab-panel').forEach(panel => {
+      panel.classList.toggle('active', panel.id === 'ptab-' + tab);
+    });
+  }
+
+  // Photo modal — event delegation on the tab container
+  document.addEventListener('click', e => {
+    const cell = e.target.closest('.photo-tab-panel .photo-cell');
+    if (cell) openPhotoModal(cell);
+  });
+
+  function openPhotoModal(cell) {
+    const label = cell.querySelector('.photo-label').textContent;
+    const loc   = cell.querySelector('.photo-loc').textContent;
+    const cellImg  = cell.querySelector('.photo-inner img');
+    const modalImg = document.getElementById('photoModalImg');
+    modalImg.className = 'photo-modal-img';
+    modalImg.innerHTML = cellImg
+      ? `<img src="${cellImg.src}" alt="${cellImg.alt}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;" />`
+      : '[ Image ]';
+    document.getElementById('photoModalLabel').textContent = label;
+    document.getElementById('photoModalLoc').textContent   = loc;
+    document.getElementById('photoModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePhotoModal() {
+    document.getElementById('photoModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Close on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closePhotoModal();
+  });
+
+  // Close on backdrop click — deferred so the modal element exists
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('photoModal').addEventListener('click', e => {
+      if (e.target === document.getElementById('photoModal')) closePhotoModal();
+    });
+  });
+
+
+  // ── NAV LINKS ──
+  function navTo(sectionId) {
+    const inCase = document.querySelector('.cs-page.active');
+    if (inCase) {
+      setMode(currentMode);
+      setTimeout(() => document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' }), 100);
+    } else {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  document.getElementById('navWork').addEventListener('click', e => {
+    e.preventDefault();
+    const inCase = document.querySelector('.cs-page.active');
+    if (inCase) {
+      setMode(currentMode);
+      setTimeout(() => {
+        document.getElementById(currentMode === 'photo' ? 'gallery' : 'work')?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      const isPhoto = document.getElementById('pagePhoto').classList.contains('active');
+      document.getElementById(isPhoto ? 'gallery' : 'work')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  document.querySelectorAll('a[href="#about"], a[href="#contact"]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      navTo(link.getAttribute('href').slice(1));
+    });
+  });
+
+  // ── VINYL PLAYER — always-on, no toggle needed ──
+</script>
+
+<!-- ── PHOTO MODAL ── -->
+<div class="photo-modal" id="photoModal">
+  <div class="photo-modal-inner" id="photoModalInner">
+    <button class="photo-modal-close" onclick="closePhotoModal()" aria-label="Close">✕</button>
+    <div class="photo-modal-img" id="photoModalImg">[ Image ]</div>
+    <div class="photo-modal-caption">
+      <span class="photo-modal-label" id="photoModalLabel"></span>
+      <span class="photo-modal-loc" id="photoModalLoc"></span>
+    </div>
+  </div>
+</div>
+</body>
+</html>
