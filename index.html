@@ -186,6 +186,23 @@
   #pageUx .hero-img-stack { width: 82%; }
   #pageUx .hero-img-card.front { margin-top: -22%; }
 
+  /* UX hero: single portrait, top flush with eyebrow, bottom flush to section */
+  #pageUx .hero-image-panel {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+  }
+  .ux-hero-photo {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 90%;
+    width: auto;
+    max-width: none;
+    display: block;
+  }
+
   /* Photo: side-by-side, one card shifted up */
   #pagePhoto .hero-img-stack {
     flex-direction: row;
@@ -280,7 +297,7 @@
   .hero-body {
     font-size: 15px;
     color: var(--muted);
-    max-width: 480px;
+    max-width: 600px;
     line-height: 1.8;
     margin-bottom: 1.75rem;
   }
@@ -533,6 +550,110 @@
     max-width: 820px;
     margin-inline: auto;
     border-bottom: 0.5px solid rgba(244,184,203,0.18);
+  }
+
+  .cs-img-stack {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin: 2.5rem auto 0;
+    padding: 1rem 0 1.5rem;
+  }
+
+  .cs-img-card {
+    width: 62%;
+    flex-shrink: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    position: relative;
+  }
+
+  .cs-img-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .cs-img-card.back  { transform: rotate(-2.5deg) translateY(-20px); z-index: 1; opacity: 0; transition: opacity 0.6s ease; }
+  .cs-img-card.front { transform: rotate(2deg) translateY(20px); margin-left: -14%; z-index: 2; box-shadow: none; opacity: 0; transition: opacity 0.6s ease 0.15s; }
+  .cs-img-card.in-view { opacity: 1; }
+
+  /* Carousel */
+  .cs-carousel {
+    width: 100%;
+    margin: 2.5rem auto 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .cs-carousel-track {
+    display: flex;
+    gap: 12px;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  .cs-carousel-slide {
+    flex-shrink: 0;
+    width: 78%;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg3);
+    opacity: 0.42;
+    transform: scale(0.95);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+  }
+
+  .cs-carousel-slide.active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .cs-carousel-slide:not(.active) { cursor: pointer; }
+
+  .cs-single-img {
+    display: block;
+    margin: 2.5rem auto 0;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .cs-single-img:hover { opacity: 0.88; transform: scale(0.995); }
+  .cs-single-img img { width: 100%; height: auto; display: block; }
+
+  .cs-carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .cs-carousel-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 1rem;
+  }
+
+  .cs-carousel-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(240,236,228,0.2);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    border: none;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .cs-carousel-dot.active {
+    background: var(--pink);
+    transform: scale(1.4);
   }
 
   .cs-company {
@@ -1152,12 +1273,37 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
+  @keyframes uxPhotoSettle {
+    from { opacity: 0; transform: translateX(-50%) translateY(48px) scale(0.96); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  }
+
   .page.active .hero,
   .page.active .photo-hero {
     animation: fadeUp 0.4s ease forwards;
   }
 
   .page.active .hero-image-panel { opacity: 1; }
+
+  #pageUx.page.active .ux-hero-photo {
+    animation: uxPhotoSettle 0.7s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s both;
+  }
+
+  /* Radial glow behind the UX cutout */
+  #pageUx .hero-image-panel::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 85%;
+    background: radial-gradient(ellipse 55% 65% at 50% 85%, rgba(244,184,203,0.38) 0%, rgba(244,184,203,0.08) 50%, transparent 75%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .ux-hero-photo { z-index: 1; }
 
   .case-card { animation: fadeUp 0.35s ease both; }
   .case-card:nth-child(1) { animation-delay: 0.05s; }
@@ -1286,6 +1432,8 @@
       aspect-ratio: unset;
     }
     #pageUx .hero-img-card { aspect-ratio: unset; }
+    #pageUx .hero-image-panel { padding: 0; }
+    .ux-hero-photo { height: 50%; }
     .hero-img-card.back {
       align-self: center;
       transform: rotate(3deg);
@@ -1351,6 +1499,7 @@
     .photo-cell:not(:first-child) { min-height: 200px; }
 
     /* 9. Case study meta row → 2-up wrap */
+    .cs-img-stack { width: 90%; }
     .cs-meta { flex-wrap: wrap; }
     .cs-meta-item { flex: 0 0 50%; }
 
@@ -1377,6 +1526,7 @@
     #pagePhoto.page.active .hero-img-card.back,
     #pagePhoto.page.active .hero-img-card.front,
     .case-card { animation: none; opacity: 1; transform: none; }
+    #pageUx.page.active .ux-hero-photo { animation: none; opacity: 1; transform: translateX(-50%); }
 
     .vinyl-pill.open { animation: none; }
   }
@@ -1489,8 +1639,8 @@
 <div class="pw-gate" id="pwGate">
   <div class="pw-card">
     <div class="pw-eyebrow">Portfolio access</div>
-    <h1 class="pw-heading">Hey there, welcome.<br><em>Password?</em></h1>
-    <p class="pw-sub">This is a private portfolio. Enter the password to continue.</p>
+    <h1 class="pw-heading">Not all portfolios are for everyone.<br><em>Password?</em></h1>
+    <p class="pw-sub">Enter the password to continue.</p>
     <div class="pw-field">
       <input
         class="pw-input"
@@ -1544,16 +1694,6 @@
         <span class="tag tag-lav">Interaction design</span>
       </div>
     </section>
-    <div class="hero-image-panel">
-      <div class="hero-img-stack">
-        <div class="hero-img-card back">
-          <div class="hero-img-placeholder">[ Image ]</div>
-        </div>
-        <div class="hero-img-card front">
-          <div class="hero-img-placeholder">[ Image ]</div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- Work -->
@@ -1741,7 +1881,14 @@
     <div class="cs-section">
       <div class="cs-section-title">Solution</div>
       <p class="cs-text">A reimagined careers section on seic.com that educates visitors about SEI as an employer, then creates a clear, intentional transition to Workday for all job-related actions. The global site map resolved the three-country challenge by embracing a unified structure with regional nuance built in.</p>
-      <div class="img-placeholder" style="min-height: 240px;">[ Site map / wireframes / final Drupal implementation ]</div>
+      <div class="cs-img-stack">
+        <div class="cs-img-card back">
+          <img src="images/careers-locations.png" alt="Careers site locations" />
+        </div>
+        <div class="cs-img-card front">
+          <img src="images/careers-homepage.png" alt="Careers site homepage" />
+        </div>
+      </div>
     </div>
 
     <div class="cs-section">
@@ -1836,7 +1983,32 @@
         <li>Carousel treatments strongly encouraged across all content types.</li>
         <li>All foundational branding elements preserved and carried over for consistency.</li>
       </ul>
-      <div class="img-placeholder" style="min-height: 220px;">[ Template system / LinkedIn post examples ]</div>
+      <div class="cs-carousel" data-carousel>
+        <div class="cs-carousel-track">
+          <div class="cs-carousel-slide"><img src="images/social-01.png" alt="Social media post 1" /></div>
+          <div class="cs-carousel-slide"><img src="images/social-02.png" alt="Social media post 2" /></div>
+          <div class="cs-carousel-slide"><img src="images/social-03.png" alt="Social media post 3" /></div>
+          <div class="cs-carousel-slide"><img src="images/social-04.png" alt="Social media post 4" /></div>
+          <div class="cs-carousel-slide"><img src="images/social-05.png" alt="Social media post 5" /></div>
+          <div class="cs-carousel-slide"><img src="images/social-06.png" alt="Social media post 6" /></div>
+          <div class="cs-carousel-slide"><img src="images/social-07.png" alt="Social media post 7" /></div>
+          <div class="cs-carousel-slide"><img src="images/social-08.png" alt="Social media post 8" /></div>
+          <div class="cs-carousel-slide"><img src="images/social-09.png" alt="Social media post 9" /></div>
+          <div class="cs-carousel-slide"><img src="images/social-10.png" alt="Social media post 10" /></div>
+        </div>
+        <div class="cs-carousel-dots">
+          <button class="cs-carousel-dot active"></button>
+          <button class="cs-carousel-dot"></button>
+          <button class="cs-carousel-dot"></button>
+          <button class="cs-carousel-dot"></button>
+          <button class="cs-carousel-dot"></button>
+          <button class="cs-carousel-dot"></button>
+          <button class="cs-carousel-dot"></button>
+          <button class="cs-carousel-dot"></button>
+          <button class="cs-carousel-dot"></button>
+          <button class="cs-carousel-dot"></button>
+        </div>
+      </div>
     </div>
 
     <div class="cs-section">
@@ -1844,7 +2016,7 @@
       <div class="cs-impact-grid">
         <div class="cs-impact-card">
           <div class="cs-impact-label">Conversion</div>
-          <div class="cs-impact-text">4 website conversions directly attributed to the newly designed carousel posts.</div>
+          <div class="cs-impact-text">4 immediate website conversions directly attributed to the newly designed carousel posts.</div>
         </div>
         <div class="cs-impact-card">
           <div class="cs-impact-label">Internal adoption</div>
@@ -1970,7 +2142,9 @@
         <div class="cs-callout-label">Key insight</div>
         <div class="cs-callout-text">"People resonate with familiarity and what benefits them first. Seeing their role in an industry of many roles confirms they're in the right place."</div>
       </div>
-      <div class="img-placeholder" style="min-height: 240px;">[ Homepage wireframe / final UI screenshot ]</div>
+      <a href="https://www.seic.com" target="_blank" rel="noopener" class="cs-single-img">
+        <img src="images/audience-selector.png" alt="Audience selector homepage" />
+      </a>
     </div>
 
     <div class="cs-section">
@@ -2060,7 +2234,7 @@
       sessionStorage.setItem('pw_ok', '1');
       const gate = document.getElementById('pwGate');
       gate.classList.add('fade-out');
-      setTimeout(() => gate.style.display = 'none', 500);
+      setTimeout(() => { gate.style.display = 'none'; window.scrollTo(0, 0); }, 500);
     } else {
       input.classList.remove('shake');
       void input.offsetWidth; /* restart animation */
@@ -2102,6 +2276,7 @@
     document.getElementById('cs' + idx).classList.add('active');
     document.getElementById('globalSections').style.display = 'none';
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => { observeImgStacks(); initCarousels(); }, 100);
   }
 
   function closeCase() {
@@ -2164,6 +2339,68 @@
     });
   });
 
+
+  // ── CS IMAGE STACK FADE-IN ──
+  const imgStackObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.cs-img-card').forEach(card => card.classList.add('in-view'));
+        imgStackObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.25 });
+
+  function observeImgStacks() {
+    document.querySelectorAll('.cs-img-stack').forEach(stack => imgStackObserver.observe(stack));
+  }
+  observeImgStacks();
+
+  // ── CAROUSEL ──
+  function initCarousels() {
+    document.querySelectorAll('[data-carousel]').forEach(carousel => {
+      if (carousel.dataset.carouselInit) return;
+      carousel.dataset.carouselInit = '1';
+
+      const track = carousel.querySelector('.cs-carousel-track');
+      const slides = carousel.querySelectorAll('.cs-carousel-slide');
+      const dots   = carousel.querySelectorAll('.cs-carousel-dot');
+      const GAP    = 12;
+      let current  = 0;
+      let timer;
+
+      function goTo(idx) {
+        current = (idx + slides.length) % slides.length;
+        const slideW = slides[0].offsetWidth;
+        const wrapW  = carousel.offsetWidth;
+        const offset = (wrapW - slideW) / 2;
+        track.style.transform = `translateX(${offset - current * (slideW + GAP)}px)`;
+        slides.forEach((s, i) => s.classList.toggle('active', i === current));
+        dots.forEach((d, i)   => d.classList.toggle('active', i === current));
+      }
+
+      let inView = false;
+
+      function tick() { goTo(current + 1); timer = setTimeout(tick, 3500); }
+      function startTimer() { clearTimeout(timer); timer = setTimeout(tick, 3500); }
+      function stopTimer()  { clearTimeout(timer); }
+
+      const carouselObserver = new IntersectionObserver(entries => {
+        inView = entries[0].isIntersecting;
+        if (inView) startTimer(); else stopTimer();
+      }, { threshold: 0.4 });
+      carouselObserver.observe(carousel);
+
+      slides.forEach((slide, i) => slide.addEventListener('click', () => {
+        if (i !== current) { stopTimer(); goTo(i); if (inView) startTimer(); }
+      }));
+      dots.forEach((dot, i) => dot.addEventListener('click', () => { stopTimer(); goTo(i); if (inView) startTimer(); }));
+      carousel.addEventListener('mouseenter', stopTimer);
+      carousel.addEventListener('mouseleave', () => { if (inView) startTimer(); });
+
+      goTo(0);
+    });
+  }
+  initCarousels();
 
   // ── NAV LINKS ──
   function navTo(sectionId) {
