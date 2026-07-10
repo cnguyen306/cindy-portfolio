@@ -1532,129 +1532,10 @@
   }
 
   /* ── PASSWORD GATE ── */
-  .pw-gate {
-    position: fixed;
-    inset: 0;
-    z-index: 999;
-    background: var(--bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    transition: opacity 0.5s ease;
-  }
-  .pw-gate.fade-out {
-    opacity: 0;
-    pointer-events: none;
-  }
-  .pw-card {
-    width: 100%;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  .pw-eyebrow {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(244,184,203,0.55);
-  }
-  .pw-heading {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(28px, 5vw, 42px);
-    font-weight: 700;
-    line-height: 1.15;
-    color: var(--cream);
-  }
-  .pw-heading em { font-style: italic; color: var(--pink); }
-  .pw-sub {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-top: -0.5rem;
-  }
-  .pw-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .pw-input {
-    background: var(--bg2);
-    border: 0.5px solid rgba(244,184,203,0.22);
-    border-radius: 8px;
-    padding: 0.85rem 1.1rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 300;
-    color: var(--cream);
-    outline: none;
-    transition: border-color 0.2s;
-    width: 100%;
-  }
-  .pw-input::placeholder { color: rgba(240,236,228,0.25); }
-  .pw-input:focus { border-color: rgba(244,184,203,0.6); }
-  .pw-input.shake {
-    animation: pwShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
-    border-color: rgba(244,184,203,0.7);
-  }
-  @keyframes pwShake {
-    0%, 100% { transform: translateX(0); }
-    20%       { transform: translateX(-7px); }
-    40%       { transform: translateX(7px); }
-    60%       { transform: translateX(-5px); }
-    80%       { transform: translateX(5px); }
-  }
-  .pw-error {
-    font-size: 12px;
-    color: var(--pink);
-    letter-spacing: 0.04em;
-    min-height: 1rem;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  .pw-error.visible { opacity: 1; }
-  .pw-btn {
-    background: var(--pink);
-    color: #1a0a10;
-    border: none;
-    border-radius: 8px;
-    padding: 0.85rem 1.5rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: opacity 0.2s;
-    align-self: flex-start;
-  }
-  .pw-btn:hover { opacity: 0.85; }
 
 </style>
 </head>
 <body>
-
-<!-- PASSWORD GATE -->
-<div class="pw-gate" id="pwGate">
-  <div class="pw-card">
-    <div class="pw-eyebrow">Portfolio access</div>
-    <h1 class="pw-heading">Not all portfolios are for everyone.<br><em>Password?</em></h1>
-    <p class="pw-sub">Enter the password to continue.</p>
-    <div class="pw-field">
-      <input
-        class="pw-input"
-        id="pwInput"
-        type="password"
-        placeholder="Enter password"
-        autocomplete="off"
-        autofocus
-      />
-      <span class="pw-error" id="pwError">Incorrect password — try again.</span>
-    </div>
-    <button class="pw-btn" onclick="checkPassword()">Enter →</button>
-  </div>
-</div>
 
 <!-- NAV -->
 <nav class="nav">
@@ -2218,41 +2099,6 @@
 </div>
 
 <script>
-  /* ── PASSWORD GATE ── */
-  const PW = 'portfolio';
-
-  (function initGate() {
-    if (sessionStorage.getItem('pw_ok') === '1') {
-      document.getElementById('pwGate').style.display = 'none';
-    }
-  })();
-
-  function checkPassword() {
-    const input = document.getElementById('pwInput');
-    const error = document.getElementById('pwError');
-    if (input.value === PW) {
-      sessionStorage.setItem('pw_ok', '1');
-      const gate = document.getElementById('pwGate');
-      gate.classList.add('fade-out');
-      setTimeout(() => { gate.style.display = 'none'; window.scrollTo(0, 0); }, 500);
-    } else {
-      input.classList.remove('shake');
-      void input.offsetWidth; /* restart animation */
-      input.classList.add('shake');
-      input.addEventListener('animationend', () => input.classList.remove('shake'), { once: true });
-      error.classList.add('visible');
-      input.value = '';
-      input.focus();
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('pwInput')?.addEventListener('keydown', e => {
-      if (e.key === 'Enter') checkPassword();
-      document.getElementById('pwError').classList.remove('visible');
-    });
-  });
-
   /* ── MAIN SITE ── */
   let currentMode = 'ux';
 
